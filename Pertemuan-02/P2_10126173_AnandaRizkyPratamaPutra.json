@@ -1,0 +1,150 @@
+{
+  "name": "Pertemuan 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "caf479ca-aff3-40ae-a63d-068d376342dc",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "66be85c5-5b1b-4320-8638-8e3a6928daa1",
+      "name": "Webhook",
+      "webhookId": "caf479ca-aff3-40ae-a63d-068d376342dc"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6c2f947-2c91-47af-b3f0-362fa52e1cf4",
+              "name": "Staus",
+              "value": "Sukses",
+              "type": "string"
+            },
+            {
+              "id": "75e9b2eb-4c59-442e-92a1-55725b773ce3",
+              "name": "Prompt",
+              "value": "=Kamu adalah pelawak terkenal dan kamu disuruhh untuk kamu komentari {{ $json.body.Nama }} dia punya Hobi {{ $json.body.Hobi }} Pastikan 1 Paragraf",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "fcd90664-3339-4b23-977c-9576cc835fd5",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        848,
+        0
+      ],
+      "id": "03a63692-f5df-4368-b83a-d85351b6ba15",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "Gemini 3 Flash Preview",
+          "cachedResultUrl": ""
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.Prompt }} "
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "28de7b85-3f0c-4946-a828-2902c7973f2f",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "maxTries": 2,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "adwBITNB8fPVJG0w",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "37215ce9-4388-4e9a-b602-341ea81607d3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "687eb594ffcc992ac4093586641963d4424ae8176e83091e87260fcb07539453"
+  },
+  "nodeGroups": [],
+  "id": "pQpI3dtp8P6qhPM0",
+  "tags": []
+}
